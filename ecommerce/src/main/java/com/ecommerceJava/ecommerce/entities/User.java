@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity //cria a tabela no banco de dados
@@ -24,6 +26,12 @@ public class User {
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     public User() {
 
     }
@@ -35,6 +43,13 @@ public class User {
         this.phone = phone;
         this.password = password;
         this.birth_date = birth_date;
+    }
+
+    
+
+
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {
@@ -69,8 +84,8 @@ public class User {
         return birth_date;
     }
 
-    public void setBirth_date(LocalDate birthday) {
-        this.birth_date = birthday;
+    public void setBirth_date(LocalDate birth_date) {
+        this.birth_date = birth_date;
     }
 
     public String getPassword() {
@@ -81,17 +96,37 @@ public class User {
         this.password = password;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     public List<Order> getOrders() {
         return orders;
     }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+    public void addRole(Role role) {
+    	roles.add(role);
+    }
+    
+	public boolean hasRole(String roleName) {
+		for (Role role : roles) {
+			if (role.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+    
 
     @Override
     public boolean equals(Object o) {
