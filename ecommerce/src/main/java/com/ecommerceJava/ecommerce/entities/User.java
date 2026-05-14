@@ -1,17 +1,20 @@
 package com.ecommerceJava.ecommerce.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
-@Entity //cria a tabela no banco de dados
-@Table(name = "tb_user") // nome da tabela
-public class User {
+@Entity
+@Table(name = "tb_user")
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //auto incremento
     private long id;
@@ -115,6 +118,16 @@ public class User {
 
     public void addRole(Role role) {
     	roles.add(role);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
     
 	public boolean hasRole(String roleName) {
