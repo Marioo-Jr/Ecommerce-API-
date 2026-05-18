@@ -52,7 +52,7 @@ public class ProductController {
         return ResponseEntity.created(uri).body(dto); // created codigo 201
     }
 
-     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> update (@PathVariable Long id,@Valid @RequestBody ProductDTO dto) {
         dto = service.update(id, dto);
