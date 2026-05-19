@@ -2,6 +2,7 @@ package com.ecommerceJava.ecommerce.services;
 
 
 import com.ecommerceJava.ecommerce.dto.ProductDTO;
+import com.ecommerceJava.ecommerce.dto.ProductMinDTO;
 import com.ecommerceJava.ecommerce.entities.Product;
 import com.ecommerceJava.ecommerce.repositories.ProductRepository;
 import com.ecommerceJava.ecommerce.services.exeptions.DatabaseException;
@@ -30,10 +31,10 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findALL(String name, Pageable pageable) {
+    public Page<ProductMinDTO> findALL(String name, Pageable pageable) {
         Page<Product> result = repository.searchByName(name,pageable);
         //return result.stream().map(x -> new ProductDTO(x)).toList();
-        return result.map(x -> new ProductDTO(x));
+        return result.map(x -> new ProductMinDTO(x));
 
 
     }

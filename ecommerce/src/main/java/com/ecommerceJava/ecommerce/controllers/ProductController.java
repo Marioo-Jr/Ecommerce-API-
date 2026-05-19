@@ -1,5 +1,6 @@
 package com.ecommerceJava.ecommerce.controllers;
 import com.ecommerceJava.ecommerce.dto.ProductDTO;
+import com.ecommerceJava.ecommerce.dto.ProductMinDTO;
 import com.ecommerceJava.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,10 @@ public class ProductController {
 
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findALL (
+    public ResponseEntity<Page<ProductMinDTO>> findALL (
         @RequestParam(name = "name", defaultValue = "") String name,
         Pageable pageable) {
-        Page<ProductDTO> dto =  service.findALL(name, pageable);
+        Page<ProductMinDTO> dto =  service.findALL(name, pageable);
         return ResponseEntity.ok(dto);
     }
 
