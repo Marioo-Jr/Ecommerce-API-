@@ -1,5 +1,9 @@
 package com.ecommerceJava.ecommerce.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ecommerceJava.ecommerce.entities.Category;
 import com.ecommerceJava.ecommerce.entities.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,6 +30,8 @@ public class ProductDTO {
     private String imgUrl;
 
 
+    @NotEmpty(message = "Deve ter pelo menos uma categoria")
+    private List<CategoryDTO> categories = new ArrayList<>();
 
 
     public ProductDTO() {
@@ -47,6 +53,13 @@ public class ProductDTO {
        description = entity.getDescription();
        price = entity.getPrice();
        imgUrl = entity.getImgUrl();
+       for(Category cat : entity.getCategories()){
+
+        categories.add(new CategoryDTO(cat));
+
+       }
+
+
     }
 
     public long getId() {
@@ -68,5 +81,12 @@ public class ProductDTO {
     public String getImgUrl() {
         return imgUrl;
     }
+
+
+    public List<CategoryDTO> getCategories() {
+        return categories;
+    }
+
+    
 
 }

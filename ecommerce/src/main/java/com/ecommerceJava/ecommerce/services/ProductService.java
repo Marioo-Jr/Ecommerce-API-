@@ -1,8 +1,10 @@
 package com.ecommerceJava.ecommerce.services;
 
 
+import com.ecommerceJava.ecommerce.dto.CategoryDTO;
 import com.ecommerceJava.ecommerce.dto.ProductDTO;
 import com.ecommerceJava.ecommerce.dto.ProductMinDTO;
+import com.ecommerceJava.ecommerce.entities.Category;
 import com.ecommerceJava.ecommerce.entities.Product;
 import com.ecommerceJava.ecommerce.repositories.ProductRepository;
 import com.ecommerceJava.ecommerce.services.exeptions.DatabaseException;
@@ -97,6 +99,12 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+        entity.getCategories().clear();
+        for(CategoryDTO catDto : dto.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDto.getId());
+            entity.getCategories().add(cat);
+        }
     }
 
 
