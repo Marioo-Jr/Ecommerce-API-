@@ -3,6 +3,7 @@ package com.ecommerceJava.ecommerce.controllers.Handlers;
 import com.ecommerceJava.ecommerce.dto.CustomError;
 import com.ecommerceJava.ecommerce.dto.ValidationError;
 import com.ecommerceJava.ecommerce.services.exeptions.DatabaseException;
+import com.ecommerceJava.ecommerce.services.exeptions.ForbiddenException;
 import com.ecommerceJava.ecommerce.services.exeptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,13 @@ public class ControllerExceptionHandler {
             err.addError(f.getField(), f.getDefaultMessage());
         }
 
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> Forbidden (ForbiddenException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN; // 403
+        CustomError err = new CustomError(Instant.now(),status.value(),e.getMessage(),request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 
